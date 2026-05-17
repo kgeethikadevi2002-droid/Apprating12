@@ -46,3 +46,7 @@ Thumbs.db
 
 # Static files (if generated)
 staticfiles/
+
+# Ignore generated model artifacts and encoder files
+media/*.pkl
+media/*.joblib
