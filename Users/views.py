@@ -155,12 +155,11 @@ def training(request):
 def DatasetView(request):
     user = request.session.get('username')
     data = pd.read_csv(os.path.join(settings.MEDIA_ROOT, 'googleplaystore.csv'))
-    from sklearn.preprocessing import LabelEncoder
-
     data = data.head(100)
-
-
-    return render(request , 'users/datasetview.html' , {'data':data.to_html , "user": user})
+    return render(request, 'users/datasetview.html', {
+        'data': data.to_html(index=False, classes='w3-table-all', border=0),
+        'user': user
+    })
 
 #=======================================PREDICATION=======================================
 from sklearn.preprocessing import LabelEncoder
@@ -185,10 +184,10 @@ def predication(request):
         genres = request.POST.get('genres')
 
         # Load and prepare data
-        data = pd.read_csv(r'D:\ml project\Code\AppRating\media\googleplaystore.csv')  # Load data
+        data = pd.read_csv(os.path.join(settings.MEDIA_ROOT, 'googleplaystore.csv'))
         data['Reviews'] = pd.to_numeric(data['Reviews'], errors='coerce').fillna(0).astype(int)
         data['Installs'] = data['Installs'].str.replace(',', '').str.replace('+', '')
-        data['Installs'] = pd.to_numeric(data['Installs'], errors='coerce').fillna(0).astype(int)  # Replace non-numeric values with 0
+        data['Installs'] = pd.to_numeric(data['Installs'], errors='coerce').fillna(0).astype(int)
         data.dropna(subset=['Rating'], inplace=True)
 
         # Encode categorical features
