@@ -1,0 +1,66 @@
+{% extends 'users/UserHome.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    td {
+        font-weight: bold;
+    }
+
+    #myform {
+        animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+</style>
+
+<div class="w3-container w3-content w3-center w3-padding-64 w3-animate-opacity-max w3-round-xxlarge"
+    style="max-width:500px" id="band">
+    <h2 class="w3-wide w3-text-white w3-round-xxlarge" id="myform">APP RATING PREDICTION</h2>
+
+    <div class="container w3-right-align" style="margin-left:20%;">
+
+        {% if predicted_rating is not None %}
+            <h1 id="myform" style="color: yellow;">APP RATING IS ⭐ {{ predicted_rating }} / 5</h1>
+        {% endif %}
+
+        <form action="{% url 'predication' %}" method="post" enctype="multipart/form-data" id="myform">
+            {% csrf_token %}
+            <table class="w3-table-all">
+                <tr>
+                    <td>App</td>
+                    <td><input type="text" name="app" required /></td>
+                </tr>
+                <tr>
+                    <td>Category</td>
+                    <td><input type="text" name="category" required /></td>
+                </tr>
+                <tr>
+                    <td>Reviews</td>
+                    <td><input type="number" name="reviews" required min="0" /></td>
+                </tr>
+                <tr>
+                    <td>Installs</td>
+                    <td><input type="number" name="installs" required min="0" /></td>
+                </tr>
+                <tr>
+                    <td>Genres</td>
+                    <td><input type="text" name="genres" required /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Predict">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
